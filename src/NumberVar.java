@@ -2,9 +2,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class NumberVar {
-	ArrayList<Character> varLets = new ArrayList<Character>();
-	int quantity = 1;
-	ArrayList<Multiplicity> multiplicities = null;
+	private ArrayList<Variable> vars = new ArrayList<Variable>();
+	private Number quantity = null;
+	
 	public NumberVar(String s){
 		//Make sure only one number
 		String num = "";
@@ -16,7 +16,7 @@ public class NumberVar {
 				if(!num.equals("")){
 					oneNum = false;
 				}
-				varLets.add(data[i]);
+				vars.add(new Variable(data[i]));
 			}
 			else if(Character.isDigit(data[i])){
 				//Check if can append number
@@ -66,5 +66,17 @@ public class NumberVar {
 		}
 		
 		Collections.sort(varLets);
+	}
+	//Get size of how
+	public int getSize(){
+		return vars.size();
+	}
+	//get the vars in the ArrayList
+	public ArrayList<Variable> getVars(){
+		return vars;
+	}
+	//get the quantity
+	public Number getQuantity(){
+		return quantity;
 	}
 }

@@ -11,6 +11,10 @@ public class Matricies {
 		Matrix m = new Matrix(input);
 		m.print();
 		System.out.println(m.derivative());
+		System.out.println("");
+		String s = "2^e^4";
+		System.out.println(s);
+		System.out.println(new NumberVar(s).toString());
 		//System.out.println(findDet());
 		//Point[] p = {new Point(0,4),new Point(5,-5),new Point(17,-13),new Point(12,-4)};
 		//System.out.println(polyArea(p));

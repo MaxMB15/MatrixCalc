@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class NumberVar {
 	private ArrayList<Variable> vars = new ArrayList<Variable>();
@@ -9,12 +10,16 @@ public class NumberVar {
 		//Make sure only one number
 		String num = "";
 		Boolean oneNum = true;
+		char prevChar = 0;
 		//Analyze through s
 		char[] data = s.toCharArray();
 		for(int i = 0;i<data.length;i++){
 			if(Character.isAlphabetic(data[i])){
 				if(!num.equals("")){
 					oneNum = false;
+					if(quantity==null){
+						quantity = new Number(Integer.parseInt(num));						
+					}
 				}
 				vars.add(new Variable(data[i]));
 			}
@@ -42,6 +47,19 @@ public class NumberVar {
 			//Multiplicity
 			else if(data[i]=='^'){
 				//Make another NumberVar
+				//get whatever was before{
+				if(Character.isDigit(data[i-1])){
+					prevChar = 0;
+					//default with number
+				}
+				else if(Character.isAlphabetic(data[i-1])){
+					prevChar = data[i-1];
+				}
+				else{
+					System.out.println("ERROR! Previous Char is not valid!");
+					System.exit(1);
+				}
+				
 				//if there are parentheses, take what ever is inside
 				i++;
 				if(data[i]=='('){
@@ -52,10 +70,27 @@ public class NumberVar {
 						t+=data[i];
 						i++;
 					}
-					multiplicities.add(new Multiplicity(t,varLets.get(varLets.size()-1)));
+					//if number
+					if(prevChar==0){
+						quantity = new Number(Integer.parseInt(num), new NumberVar(t));
+					}
+					//if var
+					else{
+						vars.remove(vars.size()-1);
+						vars.add(new Variable(prevChar,new NumberVar(t)));
+					}
 				}
+				//no parentheses
 				else{
-					
+					//if number
+					if(prevChar==0){
+						quantity = new Number(Integer.parseInt(num), new NumberVar(""+data[i]));
+					}
+					//if var
+					else{
+						vars.remove(vars.size()-1);
+						vars.add(new Variable(prevChar,new NumberVar(""+data[i])));
+					}
 				}
 			}
 			//Improper Char
@@ -65,7 +100,17 @@ public class NumberVar {
 			}
 		}
 		
-		Collections.sort(varLets);
+		//if no vars, push number
+		if(quantity==null&&!num.equals("")){
+			quantity = new Number(Integer.parseInt(num));
+		}
+		Collections.sort(vars, new Comparator<Variable>(){
+			@Override
+			public int compare(Variable o1, Variable o2) {
+				return o1.getVar().compareToIgnoreCase(o2.getVar());
+			}
+			
+		});
 	}
 	//Get size of how
 	public int getSize(){
@@ -78,5 +123,13 @@ public class NumberVar {
 	//get the quantity
 	public Number getQuantity(){
 		return quantity;
+	}
+	//Print
+	public String toString(){
+		String temp = "";
+		for(Variable v : vars){
+			temp+=v.toString();
+		}
+		return quantity.toString()+temp;
 	}
 }

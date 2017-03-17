@@ -49,4 +49,9 @@ public class Variable {
 		}
 		
 	}
+	
+	//get var
+	public String getVar(){
+		return ""+variable;
+	}
 }

@@ -6,7 +6,64 @@ public class NumberVar {
 	private ArrayList<Variable> vars = new ArrayList<Variable>();
 	private Number quantity = null;
 	
+	ArrayList<Character> operands = new ArrayList<Character>();
 	public NumberVar(String s){
+		
+		//Add to String to have proper math computations (ie: *)
+		
+		//add operands to list
+		operands.add(new Character('+'));
+		operands.add(new Character('*'));
+		operands.add(new Character('/'));
+		operands.add(new Character('^'));
+		operands.add(new Character('('));
+		operands.add(new Character(')'));
+		
+		//Split by current operands
+		ArrayList<String> body =  new ArrayList<String>();
+		ArrayList<String> op = new ArrayList<String>();
+		
+		//go through String
+		Boolean numberComing = true;
+		String num = "";
+		String push = "";
+		char[] data = s.toCharArray();
+		char c;
+		for(int i=0;i<data.length;i++){
+			c = data[i];
+			if(operands.contains(c)){
+				op.add(""+c);
+				if(!body.equals("")){
+					body.add(push);
+					push = "";
+				}
+				else{
+					System.out.println("Check if too many operators..");
+					System.out.println("Ummmm, Check this char: " +c);
+				}
+			}
+			else if(Character.isAlphabetic(c)||c=='-'){
+				num+=c;
+			}
+			else if(Character.isAlphabetic(c)){
+				//make sure number is pushed
+				if(numberComing&&!num.equals("")){
+					body.add(num);
+					op.add("*");
+				}
+				//add to body
+				body.add(""+c);
+				//if not last char
+				if(i!=data.length-1){					
+					op.add("*");
+				}
+			}
+			
+		}
+		
+		
+		
+		/*
 		//Make sure only one number
 		String num = "";
 		Boolean oneNum = true;
@@ -111,6 +168,7 @@ public class NumberVar {
 			}
 			
 		});
+		*/
 	}
 	//Get size of how
 	public int getSize(){

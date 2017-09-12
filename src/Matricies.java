@@ -12,7 +12,7 @@ public class Matricies {
 		m.print();
 		System.out.println(m.derivative());
 		System.out.println("");
-		String s = "2^e^4";
+		String s = "2^e^4+5*2";
 		System.out.println(s);
 		System.out.println(new NumberVar(s).toString());
 		//System.out.println(findDet());

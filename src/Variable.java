@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-
+//This class handles variables by themselves
 public class Variable {
 	private NumberVar exponent = null;
 	private char variable;
@@ -9,45 +8,17 @@ public class Variable {
 		variable = var;
 	}
 	//Var with exponent
-	public Variable(char var, NumberVar numvar){
+	public Variable(char var, NumberVar exp){
 		variable = var;
-		exponent = numvar;
+		exponent = exp;
 	}
 	public String toString(){
 		if(exponent==null){
 			return ""+variable;
 		}
 		else{
-			//If there is just one num/variable
-			if(exponent.getSize()==1&&exponent.getQuantity()==null){
-				//One var, no num
-				return variable+"^"+exponent.getVars().get(0).toString();
-			}
-			//No var, one num
-			else if(exponent.getSize()==0&&exponent.getQuantity()!=null){
-				return variable+"^"+exponent.getQuantity().toString();
-			}
-			//If multiple num/vars
-			else{
-				//Check if there are only vars
-				if(exponent.getQuantity()==null){
-					String temp = "";
-					for(Variable v : exponent.getVars()){
-						temp+=v.toString();
-					}
-					return variable+"^("+temp+")";
-				}
-				//If there are also nums
-				else{
-					String temp = "";
-					for(Variable v : exponent.getVars()){
-						temp+=v.toString();
-					}
-					return variable+"^("+exponent.getQuantity().toString()+temp+")";
-				}
-			}
+			return variable + "^" + exponent.toString();
 		}
-		
 	}
 	
 	//get var

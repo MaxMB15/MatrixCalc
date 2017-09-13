@@ -1,4 +1,4 @@
-
+//This class is just handling numbers by themselves
 public class Number {
 	private NumberVar exponent = null;
 	private int num = 0;
@@ -26,5 +26,8 @@ public class Number {
 			return num + "^" + exponent.toString();
 		}
 		
+	}
+	public String getNumber(){
+		return ""+ num;
 	}
 }

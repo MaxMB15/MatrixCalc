@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 
 public class NumberVar {
-	private ArrayList<Variable> vars = new ArrayList<Variable>();
+	private ArrayList<Variable> variables = new ArrayList<Variable>();
 	private Number quantity = null;
 	
-	ArrayList<Character> operands = new ArrayList<Character>();
+	private NumberVar exponent = null;
+	
 	public NumberVar(String s){
 		//cases I should look out for
 		//* -4ac
@@ -16,23 +17,51 @@ public class NumberVar {
 		String qntNumb = "";
 		//go through all chars till alpha char is present
 		for(;i<s.length();i++){
-			if(Character.isDigit(sChars[i]) || (sChars[i] == '-' && i == 0)){
+			//If there is an exponent
+			if(sChars[i] == '^'){
+				if(sChars[i+1] == '('){
+					
+				}
+				else{
+					exponent = new NumberVar(""+sChars[i+1]);
+				}
+			}
+			else if(Character.isDigit(sChars[i]) || (sChars[i] == '-' && i == 0)){
 				qntNumb += sChars[i];
 			}
 			//The beginning of vars
 			else if(Character.isAlphabetic(sChars[i])){
+				quantity = new Number(Integer.parseInt(qntNumb));
 				break;
 			}
 			//Unrecognized char
 			else{
-				
+				try {
+					throw new Exception("Formating Error!!!");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		//Add vars to variables list
+		for(;i<s.length();i++){
+			if(Character.isAlphabetic(sChars[i])){
+				variables.add(new Variable(sChars[i]));
+			}
+			//Unrecognized char
+			else{
+				try {
+					throw new Exception("Formating Error!!!");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
 	}
 	//get the vars in the ArrayList
 	public ArrayList<Variable> getVars(){
-		return vars;
+		return variables;
 	}
 	//get the quantity
 	public Number getQuantity(){
@@ -41,7 +70,7 @@ public class NumberVar {
 	//Print
 	public String toString(){
 		String temp = "";
-		for(Variable v : vars){
+		for(Variable v : variables){
 			temp+=v.toString();
 		}
 		return quantity.toString()+temp;
